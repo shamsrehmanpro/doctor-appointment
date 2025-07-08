@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+.active hr{
+    background-color: blue;
+    display: block;
+    
+    
+}
