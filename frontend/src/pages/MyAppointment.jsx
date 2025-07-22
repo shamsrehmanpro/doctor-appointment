@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { assets, doctors } from "../assets/assets";
+import { assets } from "../assets/assets";
 import DoctorSingle from "../components/DoctorSingle";
+import { doctorContext } from "../context/DoctorContext";
+import axios from "axios";
 
 const MyAppointment = () => {
   const params = useParams();
   const docId = params.docId;
+
   const [singleDoctor, setSingleDoctor] = useState({});
   const [relatedDoctor, setRelatedDoctor] = useState([])
+  const {doctors} = useContext(doctorContext)
 
-  const fetchDoctor = () => {
-    const filterDoctor = doctors.find((doctor) => doctor._id == docId);
-    setSingleDoctor(filterDoctor);
+  const fetchDoctor = async() => {
+     
+    const response = await axios.post("http://localhost:4000/api/doctor/single", {Headers:{token}})
+    setSingleDoctor(response.data.doctor);
   };
 
   const fetchRelatedDoctor = ()=>{
@@ -22,7 +27,7 @@ const MyAppointment = () => {
   useEffect(() => {
     fetchDoctor();
     fetchRelatedDoctor()
-  }, [singleDoctor, docId]);
+  }, [singleDoctor]);
 
 
   return (

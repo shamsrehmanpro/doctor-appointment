@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react'
-import { assets, doctors } from '../assets/assets'
+import { assets } from '../assets/assets'
 import { doctorContext } from '../context/DoctorContext'
 
 const Speciality = () => {
 
 
   
-  const {filterDoctor, setfilterDoctor, color, setColor, condition, setCondition} = useContext(doctorContext)
+  const {filterDoctor, setfilterDoctor, color, setColor, condition, setCondition, doctors} = useContext(doctorContext)
   
 
 

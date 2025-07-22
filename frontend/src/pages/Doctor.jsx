@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import DoctorSingle from "../components/DoctorSingle";
-import { doctors } from "../assets/assets";
 import { doctorContext } from "../context/DoctorContext";
 
 const Doctor = () => {
 
-  const {filterDoctor, setfilterDoctor, condition, setCondition, color, setColor} = useContext(doctorContext)
+  const {filterDoctor, setfilterDoctor, condition, setCondition, color, setColor, doctors} = useContext(doctorContext)
 
   const handleClick = (speciality)=>{
     const filter = doctors.filter(doctor => doctor.speciality == speciality)

@@ -43,8 +43,7 @@ const DoctorProfile = ({token}) => {
    
 
         const fetchDoctorDetail = async() => {
-
-            const response = await axios.get('http://localhost:4000/api/doctor/single', token)
+            const response = await axios.post('http://localhost:4000/api/doctor/single',{}, {headers:{token}})
             setDoctorInfo(response.data.doctor)
             setAvailable(response.data.doctor.available)
            
@@ -52,8 +51,6 @@ const DoctorProfile = ({token}) => {
 
         const updateDoctor = async() => {
             setEdit(true)
-            
-
             if (edit === true) {
                 console.log(available)
                 console.log(editData)
@@ -63,7 +60,8 @@ const DoctorProfile = ({token}) => {
             
         } 
 
-
+       { console.log(token)
+}
     useEffect(()=>{
         fetchDoctorDetail()
     },[])

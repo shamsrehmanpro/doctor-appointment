@@ -5,6 +5,9 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
 
+const createToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET)
+}
 
 //route for user login
 const loginUser = async (req, res) => {
@@ -46,7 +49,7 @@ const doctorLogin = async(req, res) => {
         const doctorPassword = doctor.password
 
         if (email === doctorEmail && password === doctorPassword) {
-            const token = jwt.sign(email+password, process.env.JWT_SECRET)
+            const token = createToken(doctor._id)
             res.json({success: true, token})
         }
     } catch (error) {

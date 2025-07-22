@@ -1,5 +1,6 @@
 import doctorModel from "../models/doctorModel.js";
 import cloudinary from "cloudinary";
+import { log } from "console";
 import fs from "fs";
 
 //function for add doctor
@@ -128,31 +129,39 @@ const removeDoctor = async (req, res) => {};
 //function for single Doctor info
 const singleDoctor = async (req, res) => {
   try {
-      const token = req.body
-      const doctor = await doctorModel.findOne(token)
-      res.json({success:true, doctor})
+    console.log(req.body.userId);
+    
+    const doctor = await doctorModel.findById(req.body.userId);
+    res.json({ success: true, doctor });
 
+    res.status(400);
   } catch (error) {
-    console.log(error)
-    res.json({success:false, message:'error'})
+    console.log(error);
+    res.json({ success: false, message: "error" });
   }
 };
 
 //update doctor
-const updateDoctor = async(req, res) => {
-  const {fees, address, available} = req.body
-  console.log(available)
-  const doctorId = req.body.userId
-    const doctor = await doctorModel.findOneAndUpdate(doctorId, {
-                                                              $set: {
-                                                                fees: fees,
-                                                                address: address ,
-                                                                available: available
-                                                              },
+const updateDoctor = async (req, res) => {
+  const { fees, address, available, userId } = req.body;
 
-    })
+  const doctorId = req.body.userId;
+  const doctor = await doctorModel.findByIdAndUpdate(userId, {
+    $set: {
+      fees: fees,
+      address: address,
+      available: available,
+    },
+  });
 
-    res.json({success: true, message:'successfully save'})
-}
+  res.json({ success: true, message: "successfully save" });
+};
 
-export { listDoctor, addDoctor, removeDoctor, singleDoctor, uploadFolder, updateDoctor };
+export {
+  listDoctor,
+  addDoctor,
+  removeDoctor,
+  singleDoctor,
+  uploadFolder,
+  updateDoctor,
+};

@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import Doctor from "./DoctorSingle";
-import { doctors } from "../assets/assets";
 import { doctorContext } from "../context/DoctorContext";
 
 const TopDoctor = () => {
-  const { filterDoctor, condition } =
+  const { filterDoctor, condition, doctors } =
     useContext(doctorContext);
 
   return (
