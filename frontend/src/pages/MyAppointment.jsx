@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import DoctorSingle from "../components/DoctorSingle";
 import { doctorContext } from "../context/DoctorContext";
 import axios from "axios";
 
-const MyAppointment = () => {
+const MyAppointment = ({token}) => {
   const params = useParams();
   const docId = params.docId;
 
@@ -13,9 +13,12 @@ const MyAppointment = () => {
   const [relatedDoctor, setRelatedDoctor] = useState([])
   const {doctors} = useContext(doctorContext)
 
+
+  const upperDivRef = useRef(null)
+
   const fetchDoctor = async() => {
      
-    const response = await axios.post("http://localhost:4000/api/doctor/single", {Headers:{token}})
+    const response = await axios.post("http://localhost:4000/api/doctor/single", {user: docId},  {headers:{token}})
     setSingleDoctor(response.data.doctor);
   };
 
@@ -26,13 +29,19 @@ const MyAppointment = () => {
 
   useEffect(() => {
     fetchDoctor();
-    fetchRelatedDoctor()
-  }, [singleDoctor]);
+  }, [docId]);
+
+useEffect(() => {
+  if (doctors.length > 0) {
+    fetchRelatedDoctor();
+  }
+}, [singleDoctor, doctors]);
+
 
 
   return (
     <div>
-      <div className="mt-10 flex gap-5">
+      <div ref={upperDivRef} className="mt-10 flex gap-5" id="upper">
         <div>
           <img
             className="bg-blue-500 h-full rounded-[10px] "
@@ -142,7 +151,7 @@ const MyAppointment = () => {
       <div className="flex flex-col items-center mt-20">
         <b className="text-[25px] ">Related Doctors</b>
         <p>Simply browse through our extensive list of trusted doctors.</p>
-        <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-5 mt-10">
+        <div onClick={()=> upperDivRef.current?.scrollIntoView({behaviour: 'smooth'}) } className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-5 mt-10">
           {relatedDoctor.map((doctor, index) => (
             <DoctorSingle key={index} id={doctor._id} index={index} name={doctor.name} speciality = {doctor.speciality} image={doctor.image}/>
           ))}

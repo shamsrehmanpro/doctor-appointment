@@ -129,12 +129,10 @@ const removeDoctor = async (req, res) => {};
 //function for single Doctor info
 const singleDoctor = async (req, res) => {
   try {
-    console.log(req.body.userId);
-    
-    const doctor = await doctorModel.findById(req.body.userId);
+    console.log(req.body.user)
+    const id = req.body.user || req.userId
+    const doctor = await doctorModel.findById(id);
     res.json({ success: true, doctor });
-
-    res.status(400);
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "error" });

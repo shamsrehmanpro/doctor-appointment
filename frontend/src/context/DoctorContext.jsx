@@ -11,7 +11,8 @@
         const [color, setColor] = useState("")
         const [condition, setCondition] = useState(false)
         const [doctors, setDoctors] = useState([])
-
+        const [token, setToken] = useState(localStorage.getItem("token") || "")
+ 
 
         const fetchDoctor = async() => {
             const response = await axios.get('http://localhost:4000/api/doctor/list')
@@ -23,10 +24,14 @@
         useEffect(()=>{
             fetchDoctor()
         },[])
+
+        useEffect(()=>{
+            localStorage.setItem('token', token)
+        },[token])
         
 
         const value = {
-        filterDoctor, setfilterDoctor,color, setColor, condition, setCondition, doctors, setDoctors
+        filterDoctor, setfilterDoctor,color, setColor, condition, setCondition, doctors, setDoctors, token, setToken
         }
 
         return (
